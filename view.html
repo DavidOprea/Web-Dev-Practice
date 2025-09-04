@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang = "en">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Cascade Ciphers</title>
+
+        <!--CSS Stuff-->
+        <style>
+            body {
+                background-color: #1a202c;
+                height: 100vh;
+            }
+
+            .head {
+                display: flex;
+                justify-content: space-between;
+                align-items: center; /* This vertically centers the items */
+                padding: 1rem;
+            }
+
+            #help-button {
+                background-color: green;
+                color: white;
+                border-radius: 0.25rem;
+                padding: 0.5rem 1rem;
+            }
+
+            #title {
+                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+                text-align: center;
+                color: white;
+                stroke: black;
+                stroke-width: 2px;
+            }
+
+            .modal-hidden {
+                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+                display: none; /* Hidden by default */
+                position: fixed; /* Stay in place */
+                z-index: 1; /* Sit on top */
+                left: 0;
+                top: 0;
+                width: 100%; /* Full width */
+                height: 100%; /* Full height */
+                overflow: auto; /* Enable scroll if needed */
+                background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            }
+
+            .modal-help {
+                background-color: #fefefe;
+                opacity: 0.8;
+                margin: 15% auto; /* 15% from the top and centered */
+                padding: 20px;
+                border: 1px solid #888;
+                width: 80%; /* Could be more or less, depending on screen size */
+            }
+
+            #close-help {
+                background-color: red;
+                color: white;
+                font-size: 3vw;
+            }
+
+            .grid-container {
+                display: grid;
+                grid-template-columns: repeat(6, 1fr);
+                grid-template-rows: repeat(6, 1fr);
+                justify-content: center;
+                align-items: center;
+                gap: 0.4vh;
+                margin: 0 auto;
+                width: 60vh;
+                height: 40vh;
+            }
+
+            .grid-container button {
+                aspect-ratio: 1 / 1;
+                background-color: gray;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 3rem;
+                color: whitesmoke;
+                font-weight: bold;
+                text-transform: uppercase;
+                border-radius: 0.25rem;
+            }
+
+            .grid-container button:hover {
+                background-color: lightgray;
+            }
+
+            .grid-container button.toggled {
+                background-color: #facc15;
+            }
+        </style>
+    </head>
+
+    <body>
+        <header class = "head">
+            <h1 id="title">Cascade Ciphers</h1>
+            <button id="help-button">Help</button>
+
+            <!--This will be the window that appears when you click the "Help" button-->
+            <div id="helpModal" class="modal-hidden">
+                <div class="modal-help">
+                    <h2>How to play Cascade Ciphers</h2>
+                    <p>1. Find a word in our word list among the grid of letters</p>
+                    <p>2. The word will color adjacent letters, giving you x2 points for them (and it adds on)</p>
+                    <p>3. Try to get the most points at the end and get on the leaderboard!</p>
+                    <button input="button", id="close-help">X</button>
+                </div>
+            </div>
+        </header>
+        
+        <body>
+            <!---The letters grid for my game-->
+            <div class="grid-container" id="grid-container"></div>
+        </body>
+        <!--JavaScript Stuff-->
+        <script>
+            const helpModal = document.getElementById('helpModal');
+            const helpButton = document.getElementById('help-button');
+            const closeHelpButton = document.getElementById('close-help');
+
+            helpButton.addEventListener('click', () => {
+                helpModal.classList.remove('hidden');
+                helpModal.style.display = 'block'; // Or 'flex' for centering
+            });
+
+            closeHelpButton.addEventListener('click', () => {
+                helpModal.classList.add('hidden');
+                helpModal.style.display = 'none';
+            });
+
+            // Close modal when clicking outside of it
+            window.addEventListener('click', (event) => {
+                if (event.target === helpModal) {
+                    helpModal.classList.add('hidden');
+                    helpModal.style.display = 'none';
+                }
+            });
+
+            document.addEventListener('DOMContentLoaded', () => {
+                const gridContainer = document.getElementById('grid-container');
+                const numRows = 6; // Define number of rows
+                const numCols = 6; // Define number of columns
+
+                for (let i = 0; i < numRows; i++) {
+                    for (let j = 0; j < numCols; j++) {
+                        const button = document.createElement('button');
+                        button.className = 'grid-button';
+                        button.textContent = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+                        button.addEventListener('click', () => {
+                            button.classList.toggle('toggled');
+                        });
+                        gridContainer.appendChild(button);
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>
